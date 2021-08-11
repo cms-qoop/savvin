@@ -1,6 +1,7 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
 	global $USER;
 	if($USER->IsAdmin()){
+		
 		$iblockNewsType = 'catalog'; //тип ИБ
 		$iblockNews = 3; //блок от куда подтягивать элементы (новости например)
 		$iblockComment = 54; //блок куда сохранять комментарии (сортируются по дате CODE комментария = id новости)
@@ -23,7 +24,15 @@
 
 			<p><b>Текст новости</b>: <i><?=$elements['PREVIEW_TEXT']?></i></p>
 			<p><b>ИД новости</b>: <i><?=$idNew?></i></p>
-			<?$APPLICATION->IncludeComponent(
+			<?
+			//данный компонент добавляет комментарий к любому элементу.
+			//при добавлении комментария создается элемент (комментарий) в инфоблоке $iblockComment
+			//передаються данные: 
+					//имя и записывается в NAME,
+					//сам комментарий записывается в DETAIL_TEXT,
+					//ID элемента из инфоблока $iblockNews к которому относится данный комментарий записывается в CODE
+					//Е-маил записывается в PROPERTY_EMAIL, если данного свойства нет в инфоблоке $iblockComment
+			$APPLICATION->IncludeComponent(
 				"savvin:add_comment","",
 				Array(
 					'IBLOCK_TYPE'=>$iblockNewsType, //тип ИБ
