@@ -24,7 +24,19 @@ class SavvinComments extends CBitrixComponent
 	}
 
 	public function addComment(){ //добавляем комментарий
-
+		$properties = CIBlockProperty::GetList(Array(), Array("ACTIVE"=>"Y", "IBLOCK_ID"=>$this->arResult['IBLOCK_ID_COMMENTS'], "CODE"=>"EMAIL")); //проверяем свойство на наличии
+		if(!$prop_fields = $properties->GetNext()){ //если свойства в инфоблоке нет, то создаем
+			$arFields = Array(
+				"NAME" => "Е-маил",
+				"ACTIVE" => "Y",
+				"SORT" => "500",
+				"CODE" => "EMAIL",
+				"PROPERTY_TYPE" => "S",
+				"IBLOCK_ID" => $this->arResult['IBLOCK_ID_COMMENTS']
+			);
+			$iblockproperty = new CIBlockProperty;
+			$PropertyID = $iblockproperty->Add($arFields); //создаем свойство
+		}
 		$el = new CIBlockElement;
 		$arLoadProductArray = Array(
 			"IBLOCK_SECTION_ID" => false,
@@ -33,6 +45,7 @@ class SavvinComments extends CBitrixComponent
 			"NAME"           => (strlen($_REQUEST['fio'])>0?$_REQUEST['fio']:'No name'),
 			"ACTIVE"         => "Y",
 			"DETAIL_TEXT"    => $_REQUEST['comment'],
+			"PROPERTY_VALUES"=> array('EMAIL'=>(strlen($_REQUEST['email'])>0?$_REQUEST['email']:''))
 		);
 		if($PRODUCT_ID = $el->Add($arLoadProductArray)){
 			return $PRODUCT_ID;
