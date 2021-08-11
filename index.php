@@ -31,7 +31,7 @@
 					//имя и записывается в NAME,
 					//сам комментарий записывается в DETAIL_TEXT,
 					//ID элемента из инфоблока $iblockNews к которому относится данный комментарий записывается в CODE
-					//Е-маил записывается в PROPERTY_EMAIL, если данного свойства нет в инфоблоке $iblockComment
+					//Е-маил записывается в PROPERTY_EMAIL, если данного свойства нет в инфоблоке $iblockComment, то оно создается автоматически
 			$APPLICATION->IncludeComponent(
 				"savvin:add_comment","",
 				Array(
